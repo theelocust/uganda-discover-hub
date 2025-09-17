@@ -65,7 +65,7 @@ const TrendingBusinesses = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {trendingBusinesses.map((business, index) => (
             <Link key={business.id} to={`/business/${business.id}`}>
               <Card className="group cursor-pointer hover:shadow-brand transition-all duration-300 animate-slide-up"
@@ -74,7 +74,7 @@ const TrendingBusinesses = () => {
                   <img
                     src={business.image}
                     alt={business.name}
-                    className="w-full h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-32 sm:h-40 md:h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
                   />
                   {business.trending && (
                     <Badge className="absolute top-3 left-3 bg-primary hover:bg-primary-dark">
