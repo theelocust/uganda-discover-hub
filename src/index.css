@@ -18,10 +18,10 @@ All colors MUST be HSL.
     --popover-foreground: 0 24% 24%;
 
     /* FindMeUG Brand Colors */
-    --primary: 24 100% 40%; /* Burnt Orange */
+    --primary: 140 60% 35%; /* Forest Green */
     --primary-foreground: 0 0% 100%;
-    --primary-light: 24 100% 50%;
-    --primary-dark: 24 100% 30%;
+    --primary-light: 140 60% 45%;
+    --primary-dark: 140 60% 25%;
 
     --secondary: 180 25% 25%; /* Dark Teal */
     --secondary-foreground: 0 0% 100%;
