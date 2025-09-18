@@ -17,28 +17,28 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 24% 24%;
 
-    /* FindMeUG Brand Colors */
-    --primary: 140 60% 35%; /* Forest Green */
+    /* FindMeUG Brand Colors - Optimized for Trust & Professionalism */
+    --primary: 214 84% 56%; /* Trustworthy Blue */
     --primary-foreground: 0 0% 100%;
-    --primary-light: 140 60% 45%;
-    --primary-dark: 140 60% 25%;
+    --primary-light: 214 84% 66%;
+    --primary-dark: 214 84% 46%;
 
-    --secondary: 180 25% 25%; /* Dark Teal */
+    --secondary: 162 73% 46%; /* Success Green */
     --secondary-foreground: 0 0% 100%;
-    --secondary-light: 180 25% 35%;
+    --secondary-light: 162 73% 56%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 24% 45%;
+    --muted: 214 20% 96%;
+    --muted-foreground: 214 20% 45%;
 
-    --accent: 24 100% 95%;
-    --accent-foreground: 0 24% 24%;
+    --accent: 37 91% 95%; /* Warm Accent */
+    --accent-foreground: 214 84% 20%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 94%;
-    --ring: 24 100% 40%;
+    --border: 214 20% 88%;
+    --input: 214 20% 94%;
+    --ring: 214 84% 56%;
 
     /* FindMeUG Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
