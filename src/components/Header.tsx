@@ -17,13 +17,25 @@ const Header = () => {
           </Link>
 
           {/* Search Bar - Hidden on mobile */}
-          <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Search businesses..."
-                className="pl-10 bg-muted border-border"
-              />
+          <div className="hidden md:flex items-center flex-1 max-w-2xl mx-8">
+            <div className="flex items-center w-full bg-muted rounded-lg border border-border overflow-hidden">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="What are you looking for?"
+                  className="pl-10 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+                />
+              </div>
+              <div className="w-px h-6 bg-border"></div>
+              <div className="relative flex-1">
+                <Input
+                  placeholder="Location in Uganda"
+                  className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+                />
+              </div>
+              <Button size="sm" className="m-1 bg-primary hover:bg-primary/90">
+                <Search className="h-4 w-4" />
+              </Button>
             </div>
           </div>
 
@@ -43,13 +55,22 @@ const Header = () => {
         </div>
 
         {/* Mobile Search Bar */}
-        <div className="md:hidden mt-3">
+        <div className="md:hidden mt-3 space-y-2">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
-              placeholder="Search businesses..."
+              placeholder="What are you looking for?"
               className="pl-10 bg-muted border-border"
             />
+          </div>
+          <div className="flex gap-2">
+            <Input
+              placeholder="Location in Uganda"
+              className="flex-1 bg-muted border-border"
+            />
+            <Button size="sm" className="bg-primary hover:bg-primary/90">
+              <Search className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>
