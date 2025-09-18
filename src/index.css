@@ -23,9 +23,9 @@ All colors MUST be HSL.
     --primary-light: 24 100% 50%;
     --primary-dark: 24 100% 30%;
 
-    --secondary: 0 24% 24%; /* Dark Brown */
+    --secondary: 180 25% 25%; /* Dark Teal */
     --secondary-foreground: 0 0% 100%;
-    --secondary-light: 0 24% 34%;
+    --secondary-light: 180 25% 35%;
 
     --muted: 0 0% 96%;
     --muted-foreground: 0 24% 45%;
