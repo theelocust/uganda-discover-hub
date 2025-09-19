@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import AdminDashboard from './components/AdminDashboard'
 import BusinessManagement from './components/BusinessManagement'
@@ -8,26 +9,35 @@ import UserManagement from './components/UserManagement'
 import BusinessOwnerDashboard from './components/BusinessOwnerDashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 import AuthPage from './components/Auth/AuthPage'
+import { useCategories, useBusinesses, usePlatformStats, useNotifications } from './hooks/useSupabaseData'
 
-// Simple Homepage Component
+// Dynamic Homepage Component with Supabase Integration
 const HomePage = () => {
+  const { categories, loading: categoriesLoading } = useCategories()
+  const { businesses, loading: businessesLoading } = useBusinesses()
+  const { stats, loading: statsLoading } = usePlatformStats()
+  const { notifications, unreadCount } = useNotifications()
+
   return (
     <>
       <Header />
       <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10">
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-purple-600 via-blue-600 to-teal-500">
+          {/* Animated Background */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+          
           <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
             <div className="mb-8">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-secondary/10 text-secondary text-sm font-medium mb-4">
-                🇺🇬 Discover Uganda's Best Businesses
+              <div className="inline-flex items-center px-6 py-3 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-medium mb-6 border border-white/30">
+                🇺🇬 Discover Uganda's Premier Businesses
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+              <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
                 Find Your Perfect
-                <span className="block text-primary">Local Business</span>
+                <span className="block bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">Business Partner</span>
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-                From restaurants to salons, clinics to auto services - discover trusted local businesses 
+              <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
+                From restaurants to salons, clinics to auto services - discover trusted businesses 
                 in your community with real reviews and ratings.
               </p>
             </div>
@@ -57,23 +67,31 @@ const HomePage = () => {
               </div>
             </div>
 
-            {/* Quick Stats */}
+            {/* Dynamic Quick Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">500+</div>
-                <div className="text-sm text-muted-foreground">Businesses</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">
+                  {statsLoading ? '...' : `${stats.totalBusinesses}+`}
+                </div>
+                <div className="text-sm text-white/80">Businesses</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">50+</div>
-                <div className="text-sm text-muted-foreground">Categories</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">
+                  {statsLoading ? '...' : `${stats.totalCategories}+`}
+                </div>
+                <div className="text-sm text-white/80">Categories</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">1000+</div>
-                <div className="text-sm text-muted-foreground">Reviews</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">
+                  {statsLoading ? '...' : `${stats.totalReviews}+`}
+                </div>
+                <div className="text-sm text-white/80">Reviews</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">24/7</div>
-                <div className="text-sm text-muted-foreground">Support</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">
+                  {statsLoading ? '...' : `${stats.activeUsers}+`}
+                </div>
+                <div className="text-sm text-white/80">Active Users</div>
               </div>
             </div>
           </div>
@@ -92,24 +110,26 @@ const HomePage = () => {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { name: 'Restaurants', icon: '🍽️', count: 120 },
-                { name: 'Salons & Beauty', icon: '💄', count: 85 },
-                { name: 'Clinics & Health', icon: '🏥', count: 65 },
-                { name: 'Auto Services', icon: '🚗', count: 45 },
-                { name: 'Shopping', icon: '🛍️', count: 90 },
-                { name: 'Education', icon: '📚', count: 35 },
-                { name: 'Entertainment', icon: '🎬', count: 25 },
-                { name: 'Services', icon: '🔧', count: 55 },
-              ].map((category, index) => (
-                <div key={index} className="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105">
-                  <div className="text-4xl mb-4">{category.icon}</div>
-                  <h3 className="font-semibold text-lg mb-2">{category.name}</h3>
-                  <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary">
-                    {category.count} businesses
+              {categoriesLoading ? (
+                // Loading skeleton
+                Array.from({ length: 8 }).map((_, index) => (
+                  <div key={index} className="bg-white rounded-lg p-6 text-center shadow-md animate-pulse">
+                    <div className="w-12 h-12 bg-gray-200 rounded-full mx-auto mb-4"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-3/4 mx-auto"></div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                categories.map((category, index) => (
+                  <div key={category.id || index} className="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105">
+                    <div className="text-4xl mb-4">{category.icon}</div>
+                    <h3 className="font-semibold text-lg mb-2">{category.name}</h3>
+                    <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary">
+                      {category.count} businesses
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </section>
@@ -159,36 +179,47 @@ const HomePage = () => {
                 </a>
               </div>
 
-              {/* App Owner Admin */}
-              <div className="bg-white rounded-lg p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl">🛡️</span>
+              {/* App Owner Admin - Monetization Style */}
+              <div className="relative bg-gradient-to-br from-purple-600 via-blue-600 to-teal-500 rounded-lg p-8 text-center shadow-2xl hover:shadow-3xl transition-all duration-300 overflow-hidden">
+                {/* Animated Background Elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
+                
+                {/* Coming Soon Badge */}
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+                  COMING SOON
                 </div>
-                <h3 className="text-2xl font-bold mb-4">Platform Admin Portal</h3>
-                <p className="text-muted-foreground mb-6">
-                  Oversee the entire platform, manage businesses, moderate content, and analyze platform performance.
-                </p>
-                <div className="space-y-3 mb-6 text-left">
-                  <div className="flex items-center">
-                    <span className="text-green-500 mr-3">✓</span>
-                    <span>Manage all businesses</span>
+                
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 border border-white/30">
+                    <span className="text-3xl">💰</span>
                   </div>
-                  <div className="flex items-center">
-                    <span className="text-green-500 mr-3">✓</span>
-                    <span>Moderate reviews & content</span>
+                  <h3 className="text-2xl font-bold text-white mb-4">Platform Monetization</h3>
+                  <p className="text-white/90 mb-6">
+                    Advanced analytics, revenue tracking, premium features, and business insights for platform growth.
+                  </p>
+                  <div className="space-y-3 mb-6 text-left">
+                    <div className="flex items-center text-white/90">
+                      <span className="text-yellow-300 mr-3">⚡</span>
+                      <span>Revenue Analytics</span>
+                    </div>
+                    <div className="flex items-center text-white/90">
+                      <span className="text-yellow-300 mr-3">⚡</span>
+                      <span>Premium Subscriptions</span>
+                    </div>
+                    <div className="flex items-center text-white/90">
+                      <span className="text-yellow-300 mr-3">⚡</span>
+                      <span>Business Intelligence</span>
+                    </div>
+                    <div className="flex items-center text-white/90">
+                      <span className="text-yellow-300 mr-3">⚡</span>
+                      <span>Growth Metrics</span>
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <span className="text-green-500 mr-3">✓</span>
-                    <span>User management</span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-green-500 mr-3">✓</span>
-                    <span>Platform analytics</span>
+                  <div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg py-3 px-6 text-white font-medium">
+                    🚀 Launching Soon
                   </div>
                 </div>
-                <a href="/admin-login" className="inline-block w-full border border-secondary text-secondary hover:bg-secondary hover:text-white py-3 px-6 rounded-lg font-medium">
-                  Platform Admin →
-                </a>
               </div>
             </div>
           </div>
@@ -299,7 +330,7 @@ function App() {
             </ProtectedRoute>
           } />
         </Routes>
-      </div>
+    </div>
     </Router>
   )
 }
