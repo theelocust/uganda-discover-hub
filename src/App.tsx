@@ -1,15 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
-import HeroSection from './components/HeroSection'
-import CategoriesGrid from './components/CategoriesGrid'
-import TrendingBusinesses from './components/TrendingBusinesses'
-import Analytics from './components/Analytics'
+import { HeroSection, CategoriesSection, FeaturedBusinesses, AdminAccessSection, Footer } from './components/HomeSections'
 import AdminDashboard from './components/AdminDashboard'
 import BusinessManagement from './components/BusinessManagement'
 import ReviewsManagement from './components/ReviewsManagement'
 import AdminAnalytics from './components/AdminAnalytics'
 import UserManagement from './components/UserManagement'
+import BusinessOwnerDashboard from './components/BusinessOwnerDashboard'
 import ProtectedRoute from './components/ProtectedRoute'
+import AuthPage from './components/Auth/AuthPage'
 
 function App() {
   return (
@@ -21,15 +20,31 @@ function App() {
             <>
               <Header />
               <HeroSection />
-              <main className="container mx-auto px-4 py-12">
-                <CategoriesGrid />
-                <TrendingBusinesses />
-                <Analytics />
-              </main>
+              <CategoriesSection />
+              <FeaturedBusinesses />
+              <AdminAccessSection />
+              <Footer />
             </>
           } />
           
-          {/* Protected Admin Routes */}
+          {/* Business Owner Login */}
+          <Route path="/business-login" element={
+            <AuthPage onAuthSuccess={() => window.location.href = '/business-dashboard'} />
+          } />
+          
+          {/* Platform Admin Login */}
+          <Route path="/admin-login" element={
+            <AuthPage onAuthSuccess={() => window.location.href = '/admin'} />
+          } />
+          
+          {/* Business Owner Dashboard */}
+          <Route path="/business-dashboard" element={
+            <ProtectedRoute>
+              <BusinessOwnerDashboard />
+            </ProtectedRoute>
+          } />
+          
+          {/* Protected Platform Admin Routes */}
           <Route path="/admin" element={
             <ProtectedRoute>
               <AdminDashboard is_admin={true} />

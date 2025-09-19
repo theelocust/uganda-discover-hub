@@ -1,11 +1,11 @@
-import { Search, Menu, User } from "lucide-react";
+import { Search, Menu, User, Building2, Shield, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="bg-background border-b border-border shadow-brand">
+    <header className="bg-background border-b border-border shadow-brand sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -41,13 +41,34 @@ const Header = () => {
 
           {/* Right side actions */}
           <div className="flex items-center space-x-2">
+            {/* Business Owner Login */}
+            <Link to="/business-login">
+              <Button variant="ghost" size="sm" className="hidden md:flex items-center">
+                <Building2 className="h-4 w-4 mr-2" />
+                Business Owner
+              </Button>
+            </Link>
+            
+            {/* Platform Admin Login */}
+            <Link to="/admin-login">
+              <Button variant="ghost" size="sm" className="hidden md:flex items-center">
+                <Shield className="h-4 w-4 mr-2" />
+                Platform Admin
+              </Button>
+            </Link>
+
+            {/* Regular User Account */}
             <Button variant="ghost" size="sm" className="hidden md:flex">
               <User className="h-4 w-4 mr-2" />
               Account
             </Button>
+            
+            {/* List Business Button */}
             <Button size="sm" className="bg-primary hover:bg-primary-dark">
               List Business
             </Button>
+            
+            {/* Mobile menu */}
             <Button variant="ghost" size="sm" className="md:hidden">
               <Menu className="h-5 w-5" />
             </Button>
@@ -71,6 +92,22 @@ const Header = () => {
             <Button size="sm" className="bg-primary hover:bg-primary/90">
               <Search className="h-4 w-4" />
             </Button>
+          </div>
+          
+          {/* Mobile Login Options */}
+          <div className="flex gap-2 pt-2">
+            <Link to="/business-login" className="flex-1">
+              <Button variant="outline" size="sm" className="w-full">
+                <Building2 className="h-4 w-4 mr-2" />
+                Business Owner
+              </Button>
+            </Link>
+            <Link to="/admin-login" className="flex-1">
+              <Button variant="outline" size="sm" className="w-full">
+                <Shield className="h-4 w-4 mr-2" />
+                Platform Admin
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
