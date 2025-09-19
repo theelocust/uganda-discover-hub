@@ -1,33 +1,33 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Landing from "./pages/Landing";
-import BusinessDetail from "./pages/BusinessDetail";
-import AuthPage from "./pages/AuthPage";
-import AdminDashboard from "./pages/AdminDashboard";
-import NotFound from "./pages/NotFound";
+import { supabase } from './lib/supabaseClient'
+import { useEffect, useState } from 'react'
+import Analytics from './components/Analytics'
 
-const queryClient = new QueryClient();
+function App() {
+  const [businesses, setBusinesses] = useState<any[]>([])
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/business/:id" element={<BusinessDetail />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+  useEffect(() => {
+    supabase
+      .from('businesses')
+      .select('*')
+      .then(({ data, error }) => {
+        if (error) console.error(error)
+        else setBusinesses(data || [])
+      })
+  }, [])
 
-export default App;
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-bold">Businesses</h1>
+      <ul>
+        {businesses.map(b => (
+          <li key={b.id}>
+            {b.name} — {b.location}
+          </li>
+        ))}
+      </ul>
+      <Analytics />
+    </div>
+  )
+}
+
+export default App
